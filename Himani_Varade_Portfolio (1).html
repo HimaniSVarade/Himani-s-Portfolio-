@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himani Varade — Data Analytics Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --ink: #0a1628; --ink2: #132340; --ink3: #1e3a5f;
+  --cream: #f7f9fc; --warm: #edf2f8;
+  --accent: #c44b2b; --accent2: #1a6fc4; --accent3: #1a8a5c;
+  --muted: #5a7490; --border: rgba(10,22,40,0.1);
+  --mono: 'JetBrains Mono', monospace;
+  --serif: 'DM Serif Display', serif;
+  --sans: 'DM Sans', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.6;overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(247,249,252,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 3rem;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-name{font-family:var(--serif);font-size:1.1rem;color:var(--ink)}
+.nav-links{display:flex;gap:1.8rem}
+.nav-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:0.07em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--accent)}
+
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:60px}
+.hero-left{background:var(--ink);color:white;padding:5rem 4rem;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.hero-left::before{content:'';position:absolute;top:-80px;right:-80px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(196,75,43,0.18) 0%,transparent 70%)}
+.hero-left::after{content:'';position:absolute;bottom:-60px;left:-40px;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(26,111,196,0.12) 0%,transparent 70%)}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--accent)}
+.hero-name{font-family:var(--serif);font-size:clamp(2.8rem,4.5vw,4.2rem);line-height:1.05;margin-bottom:1.5rem;color:white}
+.hero-name em{font-style:italic;color:rgba(255,255,255,0.35)}
+.hero-bio{font-size:15px;color:rgba(255,255,255,0.6);line-height:1.8;max-width:420px;margin-bottom:2.5rem}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:white;padding:12px 28px;border:none;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:opacity 0.2s}
+.btn-primary:hover{opacity:0.85}
+.btn-outline{background:transparent;color:rgba(255,255,255,0.65);padding:12px 28px;border:1px solid rgba(255,255,255,0.18);font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-outline:hover{border-color:rgba(255,255,255,0.5);color:white}
+.hero-stats{margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.hero-stat-num{font-family:var(--serif);font-size:2rem;color:white}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,0.32);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+.hero-right{background:var(--warm);padding:5rem 3rem;display:flex;flex-direction:column;justify-content:center;gap:2rem}
+.profile-img-wrap{width:160px;height:160px;border-radius:50%;overflow:hidden;border:4px solid white;box-shadow:0 20px 60px rgba(10,22,40,0.15);background:linear-gradient(135deg,var(--ink3),var(--ink));display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:3.5rem;color:white;flex-shrink:0}
+.info-cards{display:flex;flex-direction:column;gap:10px}
+.info-card{background:white;border:1px solid var(--border);padding:13px 18px;display:flex;align-items:center;gap:14px}
+.info-card-icon{width:34px;height:34px;background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.info-card-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+.info-card-value{font-size:13px;font-weight:500;margin-top:1px;color:var(--ink)}
+.qr-section{background:white;border:1px solid var(--border);padding:16px;display:flex;align-items:center;gap:16px}
+.qr-text-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+.qr-text-value{font-size:13px;font-weight:500;color:var(--ink)}
+
+section{padding:5.5rem 4rem}
+section:nth-child(even){background:white}
+.section-label{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:20px;height:1px;background:var(--accent)}
+.section-title{font-family:var(--serif);font-size:clamp(1.9rem,3vw,2.7rem);line-height:1.15;margin-bottom:3rem;max-width:600px;color:var(--ink)}
+
+.impact-bar{background:var(--ink);color:white;padding:3rem 4rem;display:grid;grid-template-columns:repeat(5,1fr);gap:2rem;text-align:center}
+.impact-num{font-family:var(--serif);font-size:2.2rem;color:white}
+.impact-label{font-size:11px;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px}
+.impact-sub{font-size:11px;color:rgba(255,255,255,0.2);margin-top:2px}
+
+/* ANALYTICS */
+.viz-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px}
+.viz-row2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px}
+.viz-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:1.5rem}
+.viz-card-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.35);margin-bottom:1rem}
+.viz-chart-wrap{height:180px;position:relative}
+
+/* SKILLS */
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.skill-list{display:flex;flex-direction:column;gap:18px}
+.skill-row-top{display:flex;justify-content:space-between;margin-bottom:8px}
+.skill-row-name{font-size:14px;font-weight:500;color:var(--ink)}
+.skill-row-pct{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.skill-track{height:3px;background:rgba(10,22,40,0.08)}
+.skill-fill{height:3px;background:var(--ink);transition:width 1.2s cubic-bezier(0.4,0,0.2,1);width:0}
+.skill-fill.red{background:var(--accent)}.skill-fill.blue{background:var(--accent2)}
+.tech-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:2rem}
+.tech-badge{font-family:var(--mono);font-size:11px;padding:6px 14px;border:1px solid var(--border);color:var(--muted);background:var(--cream);transition:all 0.2s;cursor:default}
+.tech-badge:hover{border-color:var(--ink);color:var(--ink)}
+
+/* INTERNSHIP DS SECTION */
+.intern-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:3rem}
+.intern-card{background:white;border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:all 0.3s}
+.intern-card:hover{box-shadow:0 16px 40px rgba(10,22,40,0.1);transform:translateY(-3px)}
+.intern-card-dot{width:8px;height:8px;border-radius:50%;margin-bottom:1.2rem}
+.intern-card-role{font-family:var(--serif);font-size:1.1rem;margin-bottom:4px;color:var(--ink)}
+.intern-card-org{font-size:12px;color:var(--muted);margin-bottom:1rem;font-family:var(--mono)}
+.intern-card-desc{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:1.2rem}
+.ds-tags{display:flex;flex-wrap:wrap;gap:6px}
+.ds-tag{font-family:var(--mono);font-size:10px;padding:3px 9px;border:1px solid var(--border);color:var(--muted);background:var(--warm)}
+.intern-chart-wrap{height:130px;position:relative;margin-top:1.2rem}
+.intern-highlight{display:flex;align-items:center;gap:10px;background:var(--warm);padding:10px 14px;margin-top:0.75rem;border-left:3px solid var(--accent)}
+.intern-highlight-num{font-family:var(--serif);font-size:1.4rem;color:var(--ink);flex-shrink:0}
+.intern-highlight-label{font-size:11px;color:var(--muted);line-height:1.4}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.project-tile{background:white;border:1px solid var(--border);padding:2.2rem;position:relative;overflow:hidden;transition:all 0.3s;display:flex;flex-direction:column;gap:1rem}
+.project-tile:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(10,22,40,0.1);border-color:rgba(10,22,40,0.2)}
+.project-number{font-family:var(--serif);font-size:5rem;color:rgba(10,22,40,0.04);position:absolute;top:1rem;right:1.5rem;line-height:1;pointer-events:none}
+.project-tag{font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em}
+.project-name{font-family:var(--serif);font-size:1.3rem;line-height:1.3;color:var(--ink)}
+.project-desc{font-size:13px;color:var(--muted);line-height:1.75}
+.project-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--mono);font-size:10px;padding:4px 10px;background:var(--warm);color:var(--muted);border:1px solid var(--border)}
+.chart-wrap{height:140px;position:relative}
+.stat-mini-grid{display:grid;gap:8px;margin:0.4rem 0}
+.stat-mini{background:var(--warm);padding:10px 14px;border:1px solid var(--border);text-align:center}
+.stat-mini-num{font-family:var(--serif);font-size:1.4rem;color:var(--ink)}
+.stat-mini-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px}
+.project-download{display:inline-flex;align-items:center;gap:8px;margin-top:0.5rem;padding:10px 18px;background:var(--ink);color:white;font-family:var(--mono);font-size:11px;letter-spacing:0.05em;text-transform:uppercase;text-decoration:none;transition:background 0.2s;border:none;cursor:pointer}
+.project-download:hover{background:var(--ink3)}
+.project-download.blue{background:var(--accent2)}.project-download.blue:hover{background:#155a9e}
+.project-download.red{background:var(--accent)}.project-download.red:hover{background:#a33a22}
+.project-download.green{background:var(--accent3)}.project-download.green:hover{background:#136e48}
+.project-note{background:var(--warm);padding:11px 14px;border:1px solid var(--border);font-size:12px;color:var(--muted)}
+
+/* EXPERIENCE */
+.exp-timeline{position:relative;padding-left:2rem}
+.exp-timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:var(--border)}
+.exp-item{position:relative;padding-bottom:3rem}
+.exp-item:last-child{padding-bottom:0}
+.exp-dot{position:absolute;left:-2.4rem;top:6px;width:10px;height:10px;border-radius:50%;background:var(--ink);border:2px solid var(--cream)}
+.exp-date{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.05em;margin-bottom:6px}
+.exp-role{font-family:var(--serif);font-size:1.2rem;margin-bottom:4px;color:var(--ink)}
+.exp-org{font-size:13px;color:var(--muted);margin-bottom:10px}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:6px}
+.exp-bullets li{font-size:13px;color:var(--muted);line-height:1.6;display:flex;gap:10px}
+.exp-bullets li::before{content:'→';color:var(--accent);flex-shrink:0}
+
+/* ABROAD */
+.abroad-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.abroad-visual{background:var(--ink);color:white;padding:3rem;position:relative;overflow:hidden}
+.abroad-visual::before{content:'日本';position:absolute;font-family:var(--serif);font-size:8rem;color:rgba(255,255,255,0.04);top:50%;left:50%;transform:translate(-50%,-50%)}
+.abroad-quote{font-family:var(--serif);font-size:1.15rem;font-style:italic;line-height:1.65;margin-bottom:1.5rem;border-left:3px solid var(--accent);padding-left:1.5rem;color:var(--ink)}
+.abroad-body{font-size:14px;color:var(--muted);line-height:1.8}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.contact-link{display:flex;align-items:center;gap:16px;padding:16px 20px;border:1px solid var(--border);text-decoration:none;color:var(--ink);transition:all 0.2s;background:white;margin-bottom:12px}
+.contact-link:hover{border-color:var(--ink);background:var(--ink);color:white}
+.contact-link:hover .contact-link-label{color:rgba(255,255,255,0.45)}
+.contact-link-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+.contact-link-value{font-size:14px;font-weight:500}
+footer{background:var(--ink);color:rgba(255,255,255,0.3);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:0.05em}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){
+  .hero,.skills-layout,.projects-grid,.abroad-wrap,.contact-grid,.intern-grid{grid-template-columns:1fr}
+  .impact-bar{grid-template-columns:repeat(2,1fr)}
+  .viz-grid,.viz-row2{grid-template-columns:1fr}
+  section{padding:4rem 1.5rem}
+  nav{padding:0 1.5rem}
+  .nav-links{display:none}
+  .hero-left,.hero-right{padding:3rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-name">Himani Varade</div>
+  <div class="nav-links">
+    <a href="#analytics">Analytics</a>
+    <a href="#internships">Internships</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#abroad">Global</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Data Analytics Portfolio</div>
+    <h1 class="hero-name">Himani<br><em>Varade</em></h1>
+    <p class="hero-bio">I turn raw data into clarity, stories, and smart decisions. Energized by patterns, thoughtful questions, and making complex information feel simple and human. From SQL to Tableau — I focus on insights that actually matter.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">5K+</div><div class="hero-stat-label">Records Analyzed</div></div>
+      <div><div class="hero-stat-num">3.7</div><div class="hero-stat-label">GPA at PSU</div></div>
+      <div><div class="hero-stat-num">4</div><div class="hero-stat-label">Internships</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="profile-img-wrap">HV</div>
+      <div>
+        <div style="font-family:var(--serif);font-size:1.4rem;margin-bottom:4px;color:var(--ink);">Business Analytics</div>
+        <div style="font-size:13px;color:var(--muted);">Portland State University</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:6px;letter-spacing:0.05em;">Expected Fall 2027</div>
+      </div>
+    </div>
+    <div class="info-cards">
+      <div class="info-card"><div class="info-card-icon">📍</div><div><div class="info-card-label">Location</div><div class="info-card-value">Portland, Oregon</div></div></div>
+      <div class="info-card"><div class="info-card-icon">🎓</div><div><div class="info-card-label">Major</div><div class="info-card-value">Business Technology & Analytics</div></div></div>
+      <div class="info-card"><div class="info-card-icon">💼</div><div><div class="info-card-label">Current Role</div><div class="info-card-value">Logistics Intern · XPO Logistics</div></div></div>
+      <div class="info-card"><div class="info-card-icon">🌏</div><div><div class="info-card-label">Study Abroad</div><div class="info-card-value">Japan — English Language Studies</div></div></div>
+    </div>
+    <div class="qr-section">
+      <div id="qr-code"></div>
+      <div>
+        <div class="qr-text-label">Scan to connect</div>
+        <div class="qr-text-value">linkedin.com/in/himanivarade</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">himans-web.my.canva.site</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT BAR -->
+<div class="impact-bar">
+  <div><div class="impact-num">5,000+</div><div class="impact-label">Shipment records</div><div class="impact-sub">XPO Logistics</div></div>
+  <div><div class="impact-num">~15%</div><div class="impact-label">Delivery improvement</div><div class="impact-sub">On-time rate</div></div>
+  <div><div class="impact-num">10–12%</div><div class="impact-label">Cost savings found</div><div class="impact-sub">Route optimization</div></div>
+  <div><div class="impact-num">68→85%</div><div class="impact-label">Forecast accuracy</div><div class="impact-sub">Amazon FBA target</div></div>
+  <div><div class="impact-num">$85.7M</div><div class="impact-label">Budget managed</div><div class="impact-sub">PM project</div></div>
+</div>
+
+<!-- ANALYTICS -->
+<section id="analytics" style="background:var(--ink2);color:white;padding-bottom:4rem;">
+  <div class="section-label" style="color:var(--accent);">Live Analytics</div>
+  <div class="section-title" style="color:white;">Data from my real projects</div>
+  <div class="viz-grid">
+    <div class="viz-card">
+      <div class="viz-card-title">XPO Logistics — On-Time Delivery Rate Improvement</div>
+      <div class="viz-chart-wrap" style="height:200px;"><canvas id="deliveryChart"></canvas></div>
+    </div>
+    <div class="viz-card">
+      <div class="viz-card-title">Delay by Carrier Type (hrs)</div>
+      <div class="viz-chart-wrap"><canvas id="carrierChart"></canvas></div>
+    </div>
+    <div class="viz-card">
+      <div class="viz-card-title">Skill proficiency radar</div>
+      <div class="viz-chart-wrap"><canvas id="skillChart"></canvas></div>
+    </div>
+  </div>
+  <div class="viz-row2">
+    <div class="viz-card">
+      <div class="viz-card-title">Amazon FBA — IPI score breakdown</div>
+      <div class="viz-chart-wrap"><canvas id="ipiChart"></canvas></div>
+    </div>
+    <div class="viz-card">
+      <div class="viz-card-title">Amazon — Forecast accuracy gap</div>
+      <div class="viz-chart-wrap"><canvas id="forecastChart"></canvas></div>
+    </div>
+    <div class="viz-card">
+      <div class="viz-card-title">Iron Man PM — Budget allocation ($M)</div>
+      <div class="viz-chart-wrap"><canvas id="budgetChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERNSHIP DATA SCIENCE SECTION -->
+<section id="internships" style="background:var(--warm);">
+  <div class="fade-in">
+    <div class="section-label">How Data Science Shaped My Internships</div>
+    <div class="section-title">Real analytics. Real decisions. Real impact.</div>
+    <p style="font-size:15px;color:var(--muted);line-height:1.8;max-width:680px;margin-bottom:3rem;">Every internship I have done has had data science at the centre of it — not just in theory but in the actual day-to-day work. Here is a quick look at how I applied analytics thinking in each role and what it actually changed.</p>
+  </div>
+  <div class="intern-grid fade-in">
+
+    <!-- XPO -->
+    <div class="intern-card">
+      <div class="intern-card-dot" style="background:var(--accent);"></div>
+      <div class="intern-card-role">Logistics Intern</div>
+      <div class="intern-card-org">XPO Logistics · Feb 2026 – Present</div>
+      <div class="intern-card-desc">The whole job was data. I was handed 5,000+ raw shipment records and tasked with figuring out why deliveries were late and where money was leaking. I cleaned and structured the data, built KPI frameworks from scratch, and used Tableau to visualize delay patterns by region and carrier. The insights directly influenced route planning decisions for the team.</div>
+      <div class="intern-highlight">
+        <div class="intern-highlight-num">~15%</div>
+        <div class="intern-highlight-label">improvement in on-time delivery rate driven by data findings</div>
+      </div>
+      <div class="intern-highlight" style="border-left-color:var(--accent2);margin-top:6px;">
+        <div class="intern-highlight-num">10–12%</div>
+        <div class="intern-highlight-label">cost-saving opportunities identified through carrier analysis</div>
+      </div>
+      <div class="intern-chart-wrap"><canvas id="xpoInternChart"></canvas></div>
+      <div class="ds-tags" style="margin-top:1rem;">
+        <span class="ds-tag">Excel</span><span class="ds-tag">Tableau</span><span class="ds-tag">SQL</span><span class="ds-tag">KPI Design</span><span class="ds-tag">Root Cause Analysis</span>
+      </div>
+    </div>
+
+    <!-- Kaplan -->
+    <div class="intern-card">
+      <div class="intern-card-dot" style="background:var(--accent2);"></div>
+      <div class="intern-card-role">Business Analyst Intern</div>
+      <div class="intern-card-org">Kaplan Interpreting Services · Sep 2025 – Feb 2026</div>
+      <div class="intern-card-desc">Data science here showed up in how scheduling and interpreter availability was managed. I built tracking dashboards that pulled together client booking data, interpreter performance records, and service completion rates — turning scattered spreadsheets into a single source of truth. I used Excel and reporting tools to spot patterns in no-show rates and matching inefficiencies that leadership hadn't been able to see before.</div>
+      <div class="intern-highlight" style="border-left-color:var(--accent2);">
+        <div class="intern-highlight-num">1 source</div>
+        <div class="intern-highlight-label">of truth built from 4 disconnected data systems across scheduling & billing</div>
+      </div>
+      <div class="intern-chart-wrap"><canvas id="kaplanInternChart"></canvas></div>
+      <div class="ds-tags" style="margin-top:1rem;">
+        <span class="ds-tag">Excel Dashboards</span><span class="ds-tag">Data Consolidation</span><span class="ds-tag">Reporting</span><span class="ds-tag">Pattern Analysis</span>
+      </div>
+    </div>
+
+    <!-- Vervent -->
+    <div class="intern-card">
+      <div class="intern-card-dot" style="background:var(--accent3);"></div>
+      <div class="intern-card-role">Operations Analyst Intern</div>
+      <div class="intern-card-org">Vervent Inc. · Jan 2025 – Jun 2025</div>
+      <div class="intern-card-desc">At Vervent I got my first real exposure to Power BI at a professional level. I built operational performance reports that tracked workflow efficiency metrics, processing timelines, and team output across departments. The key data science skill here was learning how to turn vague business questions — "why are things slow?" — into structured queries and visual answers that non-technical teams could actually act on.</div>
+      <div class="intern-highlight" style="border-left-color:var(--accent3);">
+        <div class="intern-highlight-num">Power BI</div>
+        <div class="intern-highlight-label">dashboards built for cross-department operational performance tracking</div>
+      </div>
+      <div class="intern-chart-wrap"><canvas id="verventInternChart"></canvas></div>
+      <div class="ds-tags" style="margin-top:1rem;">
+        <span class="ds-tag">Power BI</span><span class="ds-tag">Excel</span><span class="ds-tag">Process Metrics</span><span class="ds-tag">Workflow Analysis</span><span class="ds-tag">EDA</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CampusPoint row -->
+  <div class="fade-in" style="background:white;border:1px solid var(--border);padding:2rem;display:grid;grid-template-columns:1fr 2fr;gap:2rem;align-items:center;">
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Sep – Dec 2024</div>
+      <div style="font-family:var(--serif);font-size:1.2rem;margin-bottom:4px;color:var(--ink);">Business Analyst Intern</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;font-family:var(--mono);">CampusPoint Inc.</div>
+      <div class="ds-tags">
+        <span class="ds-tag">Data Organization</span><span class="ds-tag">Reporting</span><span class="ds-tag">Stakeholder Comms</span>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.8;">Even in a shorter placement, data science was present in how I worked. At CampusPoint I organized and cleaned business datasets, built reporting summaries for internal stakeholders, and helped prepare data-backed presentations for leadership. It was a great intro to how data flows through a professional environment and how to communicate findings clearly to people who aren't data people — a skill I've carried into every role since.</div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="fade-in">
+    <div class="section-label">Technical Expertise</div>
+    <div class="section-title">Tools I work with every day</div>
+  </div>
+  <div class="skills-layout fade-in">
+    <div class="skill-list">
+      <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Excel & Google Sheets</span><span class="skill-row-pct">95%</span></div><div class="skill-track"><div class="skill-fill" data-width="95"></div></div></div>
+      <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">SQL</span><span class="skill-row-pct">82%</span></div><div class="skill-track"><div class="skill-fill red" data-width="82"></div></div></div>
+      <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Tableau</span><span class="skill-row-pct">78%</span></div><div class="skill-track"><div class="skill-fill blue" data-width="78"></div></div></div>
+      <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Power BI</span><span class="skill-row-pct">72%</span></div><div class="skill-track"><div class="skill-fill red" data-width="72"></div></div></div>
+      <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Python</span><span class="skill-row-pct">65%</span></div><div class="skill-track"><div class="skill-fill" data-width="65"></div></div></div>
+      <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">SAP</span><span class="skill-row-pct">60%</span></div><div class="skill-track"><div class="skill-fill blue" data-width="60"></div></div></div>
+      <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Java</span><span class="skill-row-pct">58%</span></div><div class="skill-track"><div class="skill-fill" data-width="58"></div></div></div>
+    </div>
+    <div>
+      <div style="font-family:var(--serif);font-size:1.1rem;margin-bottom:1rem;color:var(--ink);">Additional tools & methods</div>
+      <div class="tech-badges">
+        <span class="tech-badge">Canva</span><span class="tech-badge">Google Suite</span><span class="tech-badge">Microsoft Office</span>
+        <span class="tech-badge">Canvas LMS</span><span class="tech-badge">PebblePad</span><span class="tech-badge">ARIMA Models</span>
+        <span class="tech-badge">XGBoost / LSTM</span><span class="tech-badge">Root Cause Analysis</span><span class="tech-badge">Pareto Charts</span>
+        <span class="tech-badge">KPI Development</span><span class="tech-badge">EDA</span><span class="tech-badge">Data Cleaning</span>
+        <span class="tech-badge">Dashboard Design</span><span class="tech-badge">Amazon FBA</span><span class="tech-badge">Supply Chain</span>
+        <span class="tech-badge">EMV Analysis</span><span class="tech-badge">PERT Estimation</span><span class="tech-badge">WBS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background:var(--warm);">
+  <div class="fade-in">
+    <div class="section-label">Featured Work</div>
+    <div class="section-title">Projects — with full files to download</div>
+  </div>
+  <div class="projects-grid fade-in">
+
+    <!-- 01 Amazon Inventory -->
+    <div class="project-tile">
+      <div class="project-number">01</div>
+      <div class="project-tag">Operations Analytics · Portland State University</div>
+      <div class="project-name">Amazon Inventory Forecasting Analysis</div>
+      <div class="project-desc">Deep-dive analysis into Amazon FBA inventory health. Tackled stockouts and overstocking affecting 20–25% of SKUs at peak. Built a full dashboard tracking IPI score, sell-through rate, excess and stranded units. Identified current forecast accuracy at 68% with a clear roadmap to 85%+ using ML models (ARIMA, XGBoost, LSTM). Included root cause analysis, KPI benchmarks, and stakeholder recommendations.</div>
+      <div class="stat-mini-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="stat-mini"><div class="stat-mini-num">68%</div><div class="stat-mini-label">Current accuracy</div></div>
+        <div class="stat-mini"><div class="stat-mini-num" style="color:var(--accent);">85%+</div><div class="stat-mini-label">Target with ML</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="proj1Chart"></canvas></div>
+      <div class="project-chips"><span class="chip">SQL</span><span class="chip">Tableau</span><span class="chip">Amazon FBA</span><span class="chip">ML Forecasting</span><span class="chip">KPI Analysis</span></div>
+      <a href="Amazon_Inventory_Analysis_Himani.pptx" download class="project-download">↓ Download Inventory Analysis Deck</a>
+    </div>
+
+    <!-- 02 Amazon Service -->
+    <div class="project-tile">
+      <div class="project-number">02</div>
+      <div class="project-tag">Fortune 500 Analysis · Portland State University</div>
+      <div class="project-name">Amazon Service Analysis — Customer Experience & Operations</div>
+      <div class="project-desc">A full Fortune 500 company analysis examining Amazon's customer experience, operational systems, and data infrastructure. Covered how Amazon uses data across logistics, Prime delivery, personalization, and customer satisfaction. Explored the gap between current NPS scores and loyalty benchmarks, and built a data-driven narrative around how to strengthen the customer journey using analytics.</div>
+      <div class="stat-mini-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="stat-mini"><div class="stat-mini-num">1.5M+</div><div class="stat-mini-label">Employees</div></div>
+        <div class="stat-mini"><div class="stat-mini-num">9–12%</div><div class="stat-mini-label">NPS drop in delays</div></div>
+        <div class="stat-mini"><div class="stat-mini-num">10yr</div><div class="stat-mini-label">Customer lens</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="proj2Chart"></canvas></div>
+      <div class="project-chips"><span class="chip">Customer Analytics</span><span class="chip">NPS Analysis</span><span class="chip">Supply Chain</span><span class="chip">EDA</span><span class="chip">Tableau</span></div>
+      <a href="Amazon_Service_Analysis_Himani.pptx" download class="project-download blue">↓ Download Service Analysis Deck</a>
+    </div>
+
+    <!-- 03 Banco Mais -->
+    <div class="project-tile">
+      <div class="project-number">03</div>
+      <div class="project-tag">Problem Analysis · Video Presentation</div>
+      <div class="project-name">Banco Mais — Business Problem Analysis</div>
+      <div class="project-desc">A full business problem analysis and presentation for Banco Mais — a financial services case study. Developed a structured problem framework identifying root causes, stakeholder impact, and data-driven solutions. Delivered as a video presentation demonstrating communication, analytical thinking, and the ability to translate complex business challenges into clear, actionable findings for non-technical audiences.</div>
+      <div style="background:var(--ink);padding:1.5rem;margin:0.5rem 0;display:flex;align-items:center;gap:14px;">
+        <div style="font-size:2.5rem;">🎬</div>
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Video Presentation</div>
+          <div style="font-size:13px;color:white;font-weight:500;">Banco Mais Problem Analysis</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px;">Full walkthrough of business problem, data framework & recommendations</div>
+        </div>
+      </div>
+      <div class="project-chips"><span class="chip">Business Analysis</span><span class="chip">Problem Framing</span><span class="chip">Financial Services</span><span class="chip">Stakeholder Comms</span><span class="chip">Data Storytelling</span></div>
+      <a href="Banco_Mais_Problem_Analysis.mp4" download class="project-download red">↓ Download Video Presentation</a>
+    </div>
+
+    <!-- 04 Iron Man PM -->
+    <div class="project-tile">
+      <div class="project-number">04</div>
+      <div class="project-tag">Project Management · ETM 545 Team 8</div>
+      <div class="project-name">Iron Man Suit — Full Project Management Plan</div>
+      <div class="project-desc">Industry-standard project management plan for a complex engineering product. Built a WBS with 6 deliverables and 33 tasks, AON network diagram using PERT estimation with 95% statistical accuracy totalling 52,178 man-hours, and total budget of $85.7M including risk contingency via EMV analysis. Identified 5 critical-path milestones and managed a 52-week schedule with contingency and management reserve built in.</div>
+      <div class="stat-mini-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="stat-mini"><div class="stat-mini-num">$85.7M</div><div class="stat-mini-label">Total budget</div></div>
+        <div class="stat-mini"><div class="stat-mini-num">52 wks</div><div class="stat-mini-label">Schedule</div></div>
+        <div class="stat-mini"><div class="stat-mini-num">33</div><div class="stat-mini-label">WBS tasks</div></div>
+      </div>
+      <div class="chart-wrap"><canvas id="proj4Chart"></canvas></div>
+      <div class="project-chips"><span class="chip">Project Management</span><span class="chip">PERT / WBS</span><span class="chip">EMV Risk Analysis</span><span class="chip">Gantt Chart</span><span class="chip">Critical Path</span></div>
+      <a href="IronMan_Project_Management_Himani.pptx" download class="project-download green">↓ Download PM Deck</a>
+    </div>
+
+    <!-- 05 XPO Dashboard -->
+    <div class="project-tile">
+      <div class="project-number">05</div>
+      <div class="project-tag">Operations Analytics · XPO Logistics Internship</div>
+      <div class="project-name">XPO Logistics — Shipment Performance Dashboard</div>
+      <div class="project-desc">Analyzed 5,000+ shipment records across a 7-person team to identify delivery delay patterns, carrier performance gaps, and regional inefficiencies. Built KPIs covering on-time delivery rate, cost per shipment, and average delivery time. Translated data insights into route optimization and carrier selection recommendations that directly improved team operations.</div>
+      <div class="chart-wrap"><canvas id="proj5Chart"></canvas></div>
+      <div class="project-chips"><span class="chip">Excel</span><span class="chip">Tableau</span><span class="chip">SQL</span><span class="chip">KPI Development</span><span class="chip">Root Cause Analysis</span></div>
+      <div class="project-note">📊 Live internship project — full dashboard available on request</div>
+    </div>
+
+    <!-- 06 Satisfy Running -->
+    <div class="project-tile">
+      <div class="project-number">06</div>
+      <div class="project-tag">Brand Strategy · MKTG 437 Group Project</div>
+      <div class="project-name">Satisfy Running — Product Brief & Competitive Analysis</div>
+      <div class="project-desc">Co-led a full brand strategy and product brief for Satisfy Running, a luxury trail running brand. Competitive landscape analysis across Nike ACG Ultrafly ($260), Brooks Cascadia Elite ($275), and On CloudUltra Pro ($260). Developed a 3-tier visual line plan at $140, $210–$290, and $300 price points. Identified business opportunity targeting Gen Z and Millennial urban runners in Paris, NYC, LA, and Tokyo.</div>
+      <div class="chart-wrap"><canvas id="proj6Chart"></canvas></div>
+      <div class="project-chips"><span class="chip">Brand Strategy</span><span class="chip">Market Research</span><span class="chip">Competitive Analysis</span><span class="chip">Visual Line Plan</span><span class="chip">Canva</span></div>
+      <div class="project-note">📁 Full deck available on request · MKTG 437 · PSU</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE TIMELINE -->
+<section id="experience">
+  <div class="fade-in">
+    <div class="section-label">Work History</div>
+    <div class="section-title">Where I've applied my skills</div>
+  </div>
+  <div class="exp-timeline fade-in">
+    <div class="exp-item"><div class="exp-dot" style="background:var(--accent);"></div><div class="exp-date">Feb 2026 – Present</div><div class="exp-role">Logistics Intern</div><div class="exp-org">XPO Logistics · Portland, OR</div><ul class="exp-bullets"><li>Analyzed 5,000+ shipment records to identify delivery delay patterns and carrier performance gaps across regions</li><li>Developed KPIs: on-time delivery rate, avg delivery time, cost per shipment — visualized in Tableau dashboards</li><li>Improved on-time delivery by ~15% and identified 10–12% cost-saving opportunities through route optimization</li></ul></div>
+    <div class="exp-item"><div class="exp-dot" style="background:var(--accent2);"></div><div class="exp-date">Sep 2025 – Feb 2026</div><div class="exp-role">Business Analyst Intern</div><div class="exp-org">Kaplan Interpreting Services · Portland, OR</div><ul class="exp-bullets"><li>Built consolidated dashboards from 4 disconnected data systems covering scheduling, billing, and interpreter performance</li><li>Identified patterns in no-show rates and service matching inefficiencies that informed operational adjustments</li></ul></div>
+    <div class="exp-item"><div class="exp-dot" style="background:var(--accent3);"></div><div class="exp-date">Jan 2025 – Jun 2025</div><div class="exp-role">Operations Analyst Intern</div><div class="exp-org">Vervent Inc. · Portland, OR</div><ul class="exp-bullets"><li>Built Power BI and Excel reports tracking workflow efficiency, processing timelines, and cross-department output</li><li>Translated vague business questions into structured queries and visual dashboards for non-technical leadership</li></ul></div>
+    <div class="exp-item"><div class="exp-dot"></div><div class="exp-date">Sep 2024 – Present</div><div class="exp-role">UNST Peer Mentor · First Year Inquiry (FRINQ)</div><div class="exp-org">Portland State University · Portland, OR</div><ul class="exp-bullets"><li>Facilitated weekly inquiry sessions for cohorts of 15–25 first-year students on academic skills and course themes</li><li>Co-facilitated annual mentor training conference supporting 30+ peer mentors across cohorts</li></ul></div>
+    <div class="exp-item"><div class="exp-dot"></div><div class="exp-date">Sep 2024 – Dec 2024</div><div class="exp-role">Business Analyst Intern</div><div class="exp-org">CampusPoint Inc. · Portland, OR</div><ul class="exp-bullets"><li>Organized and cleaned business datasets and built reporting summaries for internal stakeholders</li><li>Prepared data-backed presentations for leadership, sharpening skills in communicating findings to non-data audiences</li></ul></div>
+  </div>
+</section>
+
+<!-- ABROAD -->
+<section id="abroad" style="background:var(--warm);">
+  <div class="fade-in">
+    <div class="section-label">Global Experience</div>
+    <div class="section-title">A semester that changed how I communicate</div>
+  </div>
+  <div class="abroad-wrap fade-in">
+    <div class="abroad-visual">
+      <div style="font-size:6rem;text-align:center;margin-bottom:1.5rem;position:relative;z-index:1;">🇯🇵</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;text-align:center;margin-bottom:2rem;">Japan · English Language Studies</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;z-index:1;">
+        <div style="border:1px solid rgba(255,255,255,0.1);padding:1rem;text-align:center;"><div style="font-family:var(--serif);font-size:1.2rem;color:white;">Tokyo</div><div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Primary city</div></div>
+        <div style="border:1px solid rgba(255,255,255,0.1);padding:1rem;text-align:center;"><div style="font-family:var(--serif);font-size:1.2rem;color:white;">Immersive</div><div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Language program</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="abroad-quote">"Studying in a country where English isn't the native language taught me that clarity in communication isn't just about words — it's about listening, adapting, and being genuinely curious about the person in front of you."</div>
+      <div class="abroad-body">I chose Japan because it pushed me completely outside my comfort zone. Studying an English language course abroad was a deliberate challenge — and I came back with sharper communication skills, deeper cross-cultural awareness, and a mindset I now bring to every data project: always think about the audience, not just the numbers.</div>
+      <div style="margin-top:1.5rem;display:flex;gap:10px;flex-wrap:wrap;">
+        <span class="tech-badge">Cross-cultural communication</span>
+        <span class="tech-badge">Adaptability</span>
+        <span class="tech-badge">Global awareness</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-in">
+    <div class="section-label">Let's Connect</div>
+    <div class="section-title">Open to opportunities & conversations</div>
+  </div>
+  <div class="contact-grid fade-in">
+    <div>
+      <a href="mailto:hvarade@pdx.edu" class="contact-link"><div style="font-size:1.2rem;">✉</div><div><div class="contact-link-label">Email</div><div class="contact-link-value">hvarade@pdx.edu</div></div></a>
+      <a href="tel:9718082602" class="contact-link"><div style="font-size:1.2rem;">📱</div><div><div class="contact-link-label">Phone</div><div class="contact-link-value">971-808-2602</div></div></a>
+      <a href="https://linkedin.com/in/himanivarade" class="contact-link"><div style="font-size:1.2rem;">💼</div><div><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">linkedin.com/in/himanivarade</div></div></a>
+      <a href="https://himans-web.my.canva.site" class="contact-link"><div style="font-size:1.2rem;">🌐</div><div><div class="contact-link-label">Portfolio</div><div class="contact-link-value">himans-web.my.canva.site</div></div></a>
+    </div>
+    <div style="background:var(--warm);padding:2.5rem;text-align:center;border:1px solid var(--border);">
+      <div style="font-family:var(--mono);font-size:11px;margin-bottom:0.5rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;">Scan to visit LinkedIn</div>
+      <div id="qr-contact" style="display:inline-block;background:white;padding:12px;margin:1rem 0;"></div>
+      <div style="font-size:12px;color:var(--muted);">Portland, OR · Available for internships & full-time roles</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 Himani Varade · Business Technology & Analytics</div>
+  <div>Portland State University · Expected Fall 2027</div>
+</footer>
+
+<script>
+const W='rgba(255,255,255,0.5)',WL='rgba(255,255,255,0.08)',INK='#0a1628',ACC='#c44b2b',BLU='#1a6fc4',GRN='#1a8a5c',MUT='rgba(10,22,40,0.32)';
+
+try{new QRCode(document.getElementById('qr-code'),{text:'https://linkedin.com/in/himanivarade',width:80,height:80,colorDark:INK,colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M})}catch(e){}
+try{new QRCode(document.getElementById('qr-contact'),{text:'https://linkedin.com/in/himanivarade',width:130,height:130,colorDark:INK,colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M})}catch(e){}
+
+// Delivery
+new Chart(document.getElementById('deliveryChart'),{type:'line',data:{labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'],datasets:[{label:'On-Time %',data:[68,70,72,75,76,79,81,83],borderColor:ACC,backgroundColor:'rgba(196,75,43,0.1)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:4,pointBackgroundColor:ACC},{label:'Target 80%',data:[80,80,80,80,80,80,80,80],borderColor:W,borderDash:[5,5],fill:false,borderWidth:1,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:W,font:{size:11}}}},scales:{x:{ticks:{color:W,font:{size:10}},grid:{color:WL}},y:{ticks:{color:W,font:{size:10},callback:v=>v+'%'},grid:{color:WL},min:60,max:90}}}});
+
+new Chart(document.getElementById('carrierChart'),{type:'bar',data:{labels:['Low Cost','Mid Tier','Premium','Regional'],datasets:[{data:[14.2,8.6,4.1,11.3],backgroundColor:[ACC,'rgba(196,75,43,0.65)','rgba(196,75,43,0.3)','rgba(196,75,43,0.8)'],borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:W,font:{size:10}},grid:{display:false}},y:{ticks:{color:W,font:{size:10},callback:v=>v+'h'},grid:{color:WL}}}}});
+
+new Chart(document.getElementById('skillChart'),{type:'radar',data:{labels:['SQL','Excel','Tableau','Power BI','Python','SAP','Java'],datasets:[{data:[82,95,78,72,65,60,58],borderColor:ACC,backgroundColor:'rgba(196,75,43,0.1)',borderWidth:2,pointBackgroundColor:ACC,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{ticks:{display:false},pointLabels:{color:W,font:{size:10}},grid:{color:WL},angleLines:{color:WL},suggestedMin:0,suggestedMax:100}}}});
+
+new Chart(document.getElementById('ipiChart'),{type:'doughnut',data:{labels:['Sell-Through','Excess Inv','In-Stock','Stranded'],datasets:[{data:[42,28,22,8],backgroundColor:[ACC,BLU,'rgba(255,255,255,0.2)','rgba(255,255,255,0.06)'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:W,font:{size:10},boxWidth:10}}}}});
+
+new Chart(document.getElementById('forecastChart'),{type:'bar',data:{labels:['Current','Target'],datasets:[{data:[68,85],backgroundColor:[ACC,GRN],borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:W,font:{size:11}},grid:{display:false}},y:{ticks:{color:W,font:{size:10},callback:v=>v+'%'},grid:{color:WL},min:0,max:100}}}});
+
+new Chart(document.getElementById('budgetChart'),{type:'pie',data:{labels:['Materials $46M','Labor $7.5M','Risk Reserve $21.5M','Mgmt Reserve $10M'],datasets:[{data:[46,7.5,21.5,10],backgroundColor:[INK,BLU,ACC,GRN],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:W,font:{size:10},boxWidth:10}}}}});
+
+// Internship charts
+new Chart(document.getElementById('xpoInternChart'),{type:'line',data:{labels:['Month 1','Month 2','Month 3','Month 4','Month 5'],datasets:[{label:'On-Time %',data:[68,72,76,79,83],borderColor:ACC,backgroundColor:'rgba(196,75,43,0.07)',fill:true,tension:0.4,borderWidth:2,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:MUT,font:{size:9}},grid:{display:false}},y:{ticks:{color:MUT,font:{size:9},callback:v=>v+'%'},grid:{color:'rgba(10,22,40,0.06)'},min:60,max:90}}}});
+
+new Chart(document.getElementById('kaplanInternChart'),{type:'bar',data:{labels:['Booking Data','Interpreter Perf','Billing','Service Completion'],datasets:[{label:'Data Systems Consolidated',data:[85,72,91,78],backgroundColor:[BLU,'rgba(26,111,196,0.6)','rgba(26,111,196,0.4)','rgba(26,111,196,0.8)'],borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:MUT,font:{size:9}},grid:{display:false}},y:{ticks:{color:MUT,font:{size:9},callback:v=>v+'%'},grid:{color:'rgba(10,22,40,0.06)'}}}}});
+
+new Chart(document.getElementById('verventInternChart'),{type:'line',data:{labels:['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6'],datasets:[{label:'Workflow Efficiency Index',data:[62,65,70,74,77,80],borderColor:GRN,backgroundColor:'rgba(26,138,92,0.07)',fill:true,tension:0.4,borderWidth:2,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:MUT,font:{size:9}},grid:{display:false}},y:{ticks:{color:MUT,font:{size:9}},grid:{color:'rgba(10,22,40,0.06)'},min:50,max:90}}}});
+
+// Project charts
+new Chart(document.getElementById('proj1Chart'),{type:'bar',data:{labels:['Stockout rate','Forecast lag','NPS drop','Overstock'],datasets:[{data:[22,15,10,18],backgroundColor:[ACC,BLU,'rgba(10,22,40,0.45)','rgba(10,22,40,0.25)'],borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:MUT},grid:{display:false}},y:{ticks:{font:{size:9},color:MUT,callback:v=>v+'%'},grid:{color:'rgba(10,22,40,0.06)'}}}}});
+
+new Chart(document.getElementById('proj2Chart'),{type:'line',data:{labels:['Q1','Q2','Q3','Q4 Peak'],datasets:[{label:'On-Time Delivery %',data:[82,80,79,71],borderColor:ACC,fill:true,backgroundColor:'rgba(196,75,43,0.07)',tension:0.4,borderWidth:2,pointRadius:3},{label:'NPS Score (norm)',data:[78,77,76,68],borderColor:BLU,fill:false,tension:0.4,borderWidth:1.5,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10},color:MUT}}},scales:{x:{ticks:{font:{size:9},color:MUT},grid:{display:false}},y:{ticks:{font:{size:9},color:MUT},grid:{color:'rgba(10,22,40,0.06)'}}}}});
+
+new Chart(document.getElementById('proj4Chart'),{type:'bar',data:{labels:['Scope','Contingency','Baseline','Mgmt Reserve'],datasets:[{data:[44,4,48,4],backgroundColor:[INK,BLU,ACC,GRN],borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:MUT},grid:{display:false}},y:{ticks:{font:{size:9},color:MUT,callback:v=>v+'wk'},grid:{color:'rgba(10,22,40,0.06)'}}}}});
+
+new Chart(document.getElementById('proj5Chart'),{type:'bar',data:{labels:['Low Cost','Mid Tier','Premium','Regional'],datasets:[{label:'Avg Delay (hrs)',data:[14.2,8.6,4.1,11.3],backgroundColor:[ACC,BLU,'rgba(10,22,40,0.3)','rgba(10,22,40,0.5)'],borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:MUT},grid:{display:false}},y:{ticks:{font:{size:9},color:MUT,callback:v=>v+'h'},grid:{color:'rgba(10,22,40,0.06)'}}}}});
+
+new Chart(document.getElementById('proj6Chart'),{type:'bar',data:{labels:['Daily Trainer','Premium Low','Premium High','Race-Day'],datasets:[{data:[140,210,290,300],backgroundColor:[INK,BLU,ACC,GRN],borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:MUT},grid:{display:false}},y:{ticks:{font:{size:9},color:MUT,callback:v=>'$'+v},grid:{color:'rgba(10,22,40,0.06)'}}}}});
+
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');e.target.querySelectorAll('.skill-fill').forEach(b=>{b.style.width=b.dataset.width+'%'})}})},{threshold:0.1});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
